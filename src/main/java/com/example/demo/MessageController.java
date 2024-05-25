@@ -12,6 +12,7 @@ public class MessageController {
     @Autowired
     private MessageRepository messageRepository;
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/message/{id}")
     public ResponseEntity<Message> getMessage(@PathVariable String id) {
         return messageRepository.findById(id)
@@ -19,6 +20,7 @@ public class MessageController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No message found with ID: " + id));
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/message")
     public ResponseEntity<Message> createMessage(@RequestBody Message message) {
         return messageRepository.findById(message.getId())
@@ -28,6 +30,7 @@ public class MessageController {
                 .orElseGet(() -> ResponseEntity.ok(messageRepository.save(message)));
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping("/message")
     public ResponseEntity<Message> updateMessage(@RequestBody Message message) {
         return messageRepository.findById(message.getId())
