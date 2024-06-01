@@ -33,3 +33,15 @@ jobs:
       - name: Log out of Docker Hub
         if: always()
         run: docker logout
+
+      - name: Trigger workflow in infra repository
+        uses: octokit/request-action@v2.x
+        with:
+          route: POST /repos/:owner/:repo/dispatches
+          owner: teodossidossev
+          repo: ci-infra
+          event_type: trigger-uat-event
+          client_payload: '{"ref":"main","description":"Triggered from ci-backend"}'
+          mediaType: '{"previews": ["flash"]}'
+        env:
+          GITHUB_TOKEN: ${{ secrets.CI_INFRA_TOKEN }}
